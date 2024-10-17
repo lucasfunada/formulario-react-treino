@@ -40,7 +40,7 @@ function formataCpf(cpf) {
 
 export function verificaCPF(cpf) {
     if (cpf.length === 14)
-      return true;
+        return true;
     else
-      return false;
-  }
+        return false;
+}

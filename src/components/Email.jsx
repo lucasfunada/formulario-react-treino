@@ -12,7 +12,7 @@ export function Email({ objInput, handleInput }) {
         newObjInput.email = e.target.value;
         handleInput(newObjInput);
 
-        if(verificaEmail(e.target.value)) {
+        if (verificaEmail(e.target.value)) {
             setValid(true);
             setInvalid(false);
         }

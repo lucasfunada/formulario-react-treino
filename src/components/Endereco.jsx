@@ -13,7 +13,7 @@ export function Endereco({ objInput, handleInput }) {
     }
 
     function handleChangeLetras(e) {
-        const regex = /[^a-zA-Z\s]/g;
+        const regex = /[^a-zéáóíúãõàâêôç-\s]/i;
         e.target.value = e.target.value.replace(regex, "");
         handleChange(e);
     }
@@ -64,7 +64,7 @@ export function Endereco({ objInput, handleInput }) {
                 <Col md={8}>
                     <FormGroup>
                         <Label for="complemento">Complemento:</Label>
-                        <Input type="text" id="complemento" name="complemento" placeholder="Complemento (opcional)" />
+                        <Input type="text" id="complemento" name="complemento" onChange={handleChange} placeholder="Complemento (opcional)" />
                     </FormGroup>
                 </Col>
                 <Col md={4}>
@@ -123,7 +123,6 @@ export function Endereco({ objInput, handleInput }) {
                     </FormGroup>
                 </Col>
             </Row>
-
         </>
     );
 }
