@@ -1,3 +1,7 @@
+import { FormGroup } from "reactstrap";
+import { Input } from "reactstrap";
+import { Label } from "reactstrap";
+
 function Nascimento({ objInput, handleInput }) {
     const date = new Date();
     let dia = date.getDate();
@@ -12,10 +16,10 @@ function Nascimento({ objInput, handleInput }) {
     }
 
     return (
-        <>
-            <label htmlFor="nascimento">Data de Nascimento:</label>
-            <input type="date" id="nascimento" name="nascimento" onChange={handleChange} max={hoje} required/>
-        </>
+        <FormGroup>
+            <Label htmlFor="nascimento">Data de Nascimento:</Label>
+            <Input type="date" id="nascimento" name="nascimento" onChange={handleChange} max={hoje} required />
+        </FormGroup>
     );
 }
 

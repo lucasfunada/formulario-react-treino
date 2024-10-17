@@ -1,11 +1,19 @@
 import React from "react";
 import { useState } from "react";
+
+import { Form } from "reactstrap";
+import { Container } from "reactstrap";
+import { Col } from "reactstrap";
+import { Row } from "reactstrap";
+
 import { Nome } from "./components/Nome.jsx";
 import { Email } from "./components/Email.jsx";
 import { Nascimento } from "./components/Nascimento.jsx";
 import { CPF } from "./components/CPF.jsx";
 import { Endereco } from "./components/Endereco.jsx";
 import { Enviar } from "./components/Enviar.jsx";
+import { verificaEmail } from "./components/Email.jsx"
+import { verificaCPF } from "./components/CPF.jsx";
 
 /*
   formulario cadastro pessoa
@@ -22,13 +30,15 @@ import { Enviar } from "./components/Enviar.jsx";
 function App() {
 
   const [objInput, setObjInput] = useState({
-    primeiroNome: "",
-    sobreNome: "",
+    nome: "",
     email: "",
     nascimento: "",
     cpf: "",
     rua: "",
     numeroCasa: "",
+    complemento: "",
+    cep: "",
+    bairro: "",
     cidade: "",
     estado: "AC"
   });
@@ -41,7 +51,7 @@ function App() {
   function verificaDados(e) {
     let emailOK = true;
     let cpfOK = true;
-    
+
     e.preventDefault();
 
     if (!verificaEmail(objInput.email)) {
@@ -53,36 +63,29 @@ function App() {
       alert("CPF Inválido!");
       cpfOK = false;
     }
-    
-    if(emailOK === true && cpfOK === true)
+
+    if (emailOK === true && cpfOK === true)
       alert("Enviado com sucesso!");
-  }
-
-  function verificaEmail(email) {
-    const regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-
-    return regex.test(email);
-  }
-
-  function verificaCPF(cpf) {
-    if (cpf.length === 14)
-      return true;
-    else
-      return false;
   }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <form onSubmit={verificaDados}>
-          <Nome objInput={objInput} handleInput={setterObjInput} />
-          <Email objInput={objInput} handleInput={setterObjInput} />
-          <Nascimento objInput={objInput} handleInput={setterObjInput} />
-          <CPF objInput={objInput} handleInput={setterObjInput} />
-          <Endereco objInput={objInput} handleInput={setterObjInput} />
-          <Enviar objInput={objInput} handleInput={setterObjInput} />
-        </form>
-      </header>
+      <main className="App-main">
+        <Container className="mt-2 mb-2">
+          <Row>
+            <Col>
+              <Form onSubmit={verificaDados}>
+                <Nome objInput={objInput} handleInput={setterObjInput} />
+                <Email objInput={objInput} handleInput={setterObjInput} />
+                <Nascimento objInput={objInput} handleInput={setterObjInput} />
+                <CPF objInput={objInput} handleInput={setterObjInput} />
+                <Endereco objInput={objInput} handleInput={setterObjInput} />
+                <Enviar objInput={objInput} handleInput={setterObjInput} />
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </main>
     </div>
   );
 }

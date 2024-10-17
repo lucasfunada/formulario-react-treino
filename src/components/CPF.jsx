@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { FormGroup } from "reactstrap";
+import { Input } from "reactstrap";
+import { Label } from "reactstrap";
 
 export function CPF({ objInput, handleInput }) {
     const [cpf, setCpf] = useState('');
@@ -13,9 +16,9 @@ export function CPF({ objInput, handleInput }) {
     }
 
     return (
-        <>
-            <label htmlFor="cpf-input">CPF:</label>
-            <input
+        <FormGroup>
+            <Label for="cpf-input">CPF:</Label>
+            <Input
                 type="text"
                 id="cpf-input"
                 name="cpf-input"
@@ -25,13 +28,19 @@ export function CPF({ objInput, handleInput }) {
                 onChange={handleChange}
                 required
             />
-        </>
-
+        </FormGroup>
     );
 }
 
-export function formataCpf(cpf) {
+function formataCpf(cpf) {
     cpf = cpf.replace(/[^\d]/g, "");
 
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 }
+
+export function verificaCPF(cpf) {
+    if (cpf.length === 14)
+      return true;
+    else
+      return false;
+  }

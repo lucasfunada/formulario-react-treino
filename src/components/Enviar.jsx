@@ -1,9 +1,11 @@
+import { Button } from "reactstrap";
+
 export function Enviar(objInput) {
 
     verificaEmail(objInput.email);
 
     return (
-        <input type="submit" value="Enviar" />
+        <Button>Enviar</Button>
     );
 }
 
