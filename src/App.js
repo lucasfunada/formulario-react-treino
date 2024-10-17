@@ -13,7 +13,8 @@ import { CPF } from "./components/CPF.jsx";
 import { Endereco } from "./components/Endereco.jsx";
 import { Enviar } from "./components/Enviar.jsx";
 import { verificaEmail } from "./components/Email.jsx"
-import { verificaCPF } from "./components/CPF.jsx";
+import { verificaCpf } from "./components/CPF.jsx";
+import { verificaCep } from "./components/Endereco.jsx";
 
 /*
   formulario cadastro pessoa
@@ -51,6 +52,7 @@ function App() {
   function verificaDados(e) {
     let emailOK = true;
     let cpfOK = true;
+    let cepOK = true;
 
     e.preventDefault();
 
@@ -59,12 +61,17 @@ function App() {
       emailOK = false;
     }
 
-    if (!verificaCPF(objInput.cpf)) {
+    if (!verificaCpf(objInput.cpf)) {
       alert("CPF Inválido!");
       cpfOK = false;
     }
 
-    if (emailOK === true && cpfOK === true)
+    if (!verificaCep(objInput.cep)) {
+      alert("CEP Inválido!");
+      cepOK = false;
+    }
+
+    if (emailOK === true && cpfOK === true && cepOK === true)
       alert("Enviado com sucesso!");
   }
 

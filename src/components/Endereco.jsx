@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FormGroup } from "reactstrap";
 import { Input } from "reactstrap";
 import { Label } from "reactstrap";
@@ -5,6 +6,9 @@ import { Row } from "reactstrap";
 import { Col } from "reactstrap";
 
 export function Endereco({ objInput, handleInput }) {
+    const [valid, setValid] = useState(false);
+    const [invalid, setInvalid] = useState(false);
+    const [cep, setCep] = useState("");
 
     function handleChangeNumeros(e) {
         const regex = /[^\d]/g;
@@ -29,9 +33,6 @@ export function Endereco({ objInput, handleInput }) {
         else if (e.target.id === "complemento") {
             newObjInput.complemento = e.target.value;
         }
-        else if (e.target.id === "cep") {
-            newObjInput.cep = e.target.value;
-        }
         else if (e.target.id === "bairro") {
             newObjInput.bairro = e.target.value;
         }
@@ -44,19 +45,49 @@ export function Endereco({ objInput, handleInput }) {
         handleInput(newObjInput);
     }
 
+    function handleChangeCep(e) {
+        const cepFormatado = formataCep(e.target.value);
+        setCep(cepFormatado);
+
+        if (verificaCep(cepFormatado)) {
+            setValid(true);
+            setInvalid(false);
+        }
+        else {
+            setValid(false);
+            setInvalid(true);
+        }
+
+        let newObjInput = objInput;
+        newObjInput.cep = cepFormatado;
+        handleInput(newObjInput);
+    }
+
     return (
         <>
             <Row>
                 <Col md={8}>
                     <FormGroup>
                         <Label for="rua">Endereço:</Label>
-                        <Input type="text" id="rua" name="rua" onChange={handleChangeLetras} placeholder="Nome da rua" required />
+                        <Input
+                            type="text"
+                            id="rua"
+                            name="rua"
+                            onChange={handleChangeLetras}
+                            placeholder="Nome da rua"
+                            required />
                     </FormGroup>
                 </Col>
                 <Col md={4}>
                     <FormGroup>
                         <Label for="numero">Numero:</Label>
-                        <Input type="text" id="numero" name="numero" onChange={handleChangeNumeros} placeholder="Número da casa" required />
+                        <Input
+                            type="text"
+                            id="numero"
+                            name="numero"
+                            onChange={handleChangeNumeros}
+                            placeholder="Número da casa"
+                            required />
                     </FormGroup>
                 </Col>
             </Row>
@@ -64,13 +95,30 @@ export function Endereco({ objInput, handleInput }) {
                 <Col md={8}>
                     <FormGroup>
                         <Label for="complemento">Complemento:</Label>
-                        <Input type="text" id="complemento" name="complemento" onChange={handleChange} placeholder="Complemento (opcional)" />
+                        <Input
+                            type="text"
+                            id="complemento"
+                            name="complemento"
+                            onChange={handleChange}
+                            placeholder="Complemento (opcional)"
+                        />
                     </FormGroup>
                 </Col>
                 <Col md={4}>
                     <FormGroup>
                         <Label for="cep">CEP:</Label>
-                        <Input type="text" id="cep" name="cep" onChange={handleChangeNumeros} placeholder="CEP" required />
+                        <Input
+                            type="text"
+                            id="cep"
+                            name="cep"
+                            placeholder="CEP"
+                            value={cep}
+                            maxLength={9}
+                            valid={valid}
+                            invalid={invalid}
+                            onChange={handleChangeCep}
+                            required
+                        />
                     </FormGroup>
                 </Col>
             </Row>
@@ -78,19 +126,39 @@ export function Endereco({ objInput, handleInput }) {
                 <Col md={5}>
                     <FormGroup>
                         <Label for="bairro">Bairro:</Label>
-                        <Input type="text" id="bairro" name="bairro" onChange={handleChangeLetras} placeholder="Nome do bairro" required />
+                        <Input
+                            type="text"
+                            id="bairro"
+                            name="bairro"
+                            onChange={handleChangeLetras}
+                            placeholder="Nome do bairro"
+                            required
+                        />
                     </FormGroup>
                 </Col>
                 <Col md={5}>
                     <FormGroup>
                         <Label for="cidade">Cidade:</Label>
-                        <Input type="text" id="cidade" name="cidade" onChange={handleChangeLetras} placeholder="Nome da cidade" required />
+                        <Input
+                            type="text"
+                            id="cidade"
+                            name="cidade"
+                            onChange={handleChangeLetras}
+                            placeholder="Nome da cidade"
+                            required
+                        />
                     </FormGroup>
                 </Col>
                 <Col md={2}>
                     <FormGroup>
                         <Label for="estado">Estado:</Label>
-                        <Input type="select" id="estado" name="estado" onChange={handleChange} >
+                        <Input
+                            type="select"
+                            id="estado"
+                            name="estado"
+                            onChange={handleChange}
+                            required
+                        >
                             <option value="AC">Acre</option>
                             <option value="AL">Alagoas</option>
                             <option value="AP">Amapá</option>
@@ -127,3 +195,17 @@ export function Endereco({ objInput, handleInput }) {
     );
 }
 
+function formataCep(cep) {
+    cep = cep.replace(/[^\d]/g, "");
+
+    return cep.replace(/(\d{5})(\d{3})/, "$1-$2");
+}
+
+export function verificaCep(cep) {
+    if (cep.length === 9) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
